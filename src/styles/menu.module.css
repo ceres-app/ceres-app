@@ -1,0 +1,54 @@
+.menuButton {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+  }
+
+.menuCloseButton {
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+  
+.menu {
+    background-color: #f9f9f9;
+    width: 250px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -250px;
+    transition: left 0.3s ease-in-out;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+  }
+  
+  .menu.close{
+    
+  }
+  
+  .menu.open {
+    left: 0;
+  }
+  
+  .menuList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menuItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-decoration: none;
+    color: black;
+  }
+
+  .menuText {
+    margin-left: 0.5vw;
+}

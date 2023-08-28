@@ -1,0 +1,42 @@
+.greenButton{
+    background-color: #408080;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    font-family: inherit;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.greenButtonOn {
+    background-color: #FAA613;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+.input {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+.goBackButton {
+    background-color: #408080;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    font-family: inherit;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}

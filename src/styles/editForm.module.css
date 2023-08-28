@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .registerForm .button {
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    background-color: #408080;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .bottomButtons{
+    display: flex;
+    margin-top: 5px;
+    justify-content: space-between;
+  }
+
+  .cancelButton {
+    background-color: red;
+    padding: 12px;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+  }
+
+  .saveButton {
+    background-color: #408080;
+    padding: 12px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .formTitle{
+    font-weight: bold;
+    margin-bottom: 2vh;
+    text-align: center;
+    font-size: 1.3rem;
+  }

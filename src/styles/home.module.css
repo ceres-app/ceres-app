@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.description {
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.gardenTitle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  width: 350px;
+}
+
+.gardenTitle .gardenName {
+  display: flex;
+  flex-direction: row;
+}
+
+.gardenTitle .text{
+  font-size: 24px;
+  margin-left: 0.5vw;
+}
+
+.gardenTitle .addGarden
+{
+    background-color: #408080;
+    color: white;
+    border: none;
+    padding: 6px 12px; 
+    font-size: 14px; 
+    cursor: pointer;
+    margin-left: auto; 
+    border-radius: 4px;
+}
+
+.connected {
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+.listView {
+  max-height: 300px; 
+  overflow-y: auto;
+}
+
+.listView .addPlant {
+  position: sticky;
+  bottom: 0; 
+  background-color: #408080;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px; 
+  cursor: pointer;
+  align-items: center;
+  text-decoration: none;
+}
+
+.listContent {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 40%;
+  overflow: auto; 
+}
+
+.listItem {
+  text-decoration: none;
+  color: black;
+}

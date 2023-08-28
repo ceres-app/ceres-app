@@ -1,0 +1,36 @@
+.weatherCard {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 16px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-items: flex-start;
+    background-color: #408080;
+    color: white;
+  }
+
+  .description h3 {
+    margin: 0px;
+  }
+
+  .cardTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .icon {
+        align-items: flex-end;
+  }
+
+  .weatherCard .cardTitle h1{
+    font-size: 16pt;
+  }
+
+.bottomCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    }
