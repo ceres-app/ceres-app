@@ -1,15 +1,17 @@
 'use client'
 import PlantItem from '@/components/plant-item';
 import styles from '@/styles/plants.module.css';
-import plantData from '@/utils/plant-data';
+import { plantList } from '@/utils/data';
 import { SearchInput } from 'evergreen-ui';
 import React, { useState } from 'react';
 
+
 const PlantListPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const filteredItems = plantData.filter(item =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredItems = plantList.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   return (
     <div>
       <div className={styles.content}>
@@ -21,9 +23,9 @@ const PlantListPage: React.FC = () => {
             {filteredItems.map((cardData) => (
             <PlantItem
               key={cardData.id}
-              title={cardData.title}
+              title={cardData.name}
               days={cardData.days}
-              associated={cardData.associated}
+              associated={cardData.garden.name}
               page={`${cardData.id}`}
             />
             ))}

@@ -20,7 +20,7 @@ const PlantItem: React.FC<PlantItemProps> = ({ title, days, associated, page }) 
         <h3 className={styles.itemTitle}>{title}</h3>
         <p className={styles.itemSubtitle}>Necessita ser irrigado a cada {days} dias</p>
         <div className={styles.associated}>
-        Associado a <p className={styles.tag}>{associated.name}</p>
+        Associado a <p className={styles.tag}>{associated}</p>
         </div>
       </div>
     </Link>

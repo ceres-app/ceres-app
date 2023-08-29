@@ -27,9 +27,12 @@ export default class PlantService {
            return responseJSON;
     }
 
-    async findById(PlantId: string): Promise<Plant>{
+    async findById(plantId: string): Promise<Plant>{
         const response = await fetch(
-            `${API_URL}:${API_PORT}/plants/${PlantId}`
+          //  `${API_URL}:${API_PORT}/plants/${PlantId}`
+          `https://rickandmortyapi.com/api/character/${plantId}`, {
+            next: { revalidate: 10 },
+          }
           );
       
           const responseJSON = await response.json();
@@ -91,13 +94,19 @@ export default class PlantService {
     }
 
     async fetchAll(){
-      const response = await fetch(`${API_URL}:${API_PORT}/plants`, {
+      const response = await fetch(
+        //`${API_URL}:${API_PORT}/plants`, {
+        'https://rickandmortyapi.com/api/character', {
         method: 'GET'
       });
 
       const responseJSON = await response.json();
       const responseStatus = response.status;
       if (responseStatus !== 200) throw new Error(responseJSON.message);
-      return responseJSON.map((plant: { name: string; _id: any; isWorking: boolean; }) => ({ name: plant.name, _id: plant._id, isWorking: plant.isWorking }));
+      //return responseJSON.map((plant: { name: string; _id: any; isWorking: boolean; }) => ({ name: plant.name, _id: plant._id, isWorking: plant.isWorking }));
+      return responseJSON.results.map((plant: {name: string, id: number, status: string, origin: any}) =>
+      (
+       { name: plant.name, id: plant.id, status: plant.status, origin: plant.origin.name}
+      ))
     }
 }

@@ -1,15 +1,8 @@
 'use client'
-import { Garden } from '@/entities/Garden';
-import { Plant } from '@/entities/Plant';
-import GardenService from '@/services/garden.service';
-import PlantService from '@/services/plant.service';
 import editStyles from '@/styles/editForm.module.css';
-import { FetchAll } from '@/use_cases/garden/FetchAll';
-import { FindById } from '@/use_cases/plant/FindById';
-import { FindGardensById } from '@/use_cases/plant/FindGardensById';
-import { Update } from '@/use_cases/plant/Update';
+import { plantList } from '@/utils/data';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 interface PageProps {
   params: {
@@ -17,45 +10,27 @@ interface PageProps {
   }
 }
 
-const plantService = new PlantService();
-const gardenService = new GardenService();
-const updateUC = new Update(plantService);
-const findUC = new FindById(plantService)
-const fetchAssociatedGardens = new FindGardensById(plantService);
-const fetchGardens = new FetchAll(gardenService);
+function findPlant(id: string) {
+  return plantList.find(objeto => objeto.id === id);
+}
 
 const PlantDetailPage: React.FC<PageProps> = ({params}) => {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const [plant, setPlant] = useState<Plant>();
-  const [gardens, setGardens] = useState<Garden[]>([]);
-  const [associatedGardens, setAssociatedGardens] = useState<Garden[]>([]);
-  const [formData, setFormData] = useState({
+  const [gardens, setGardens] = useState([{name: '', id: ''}]);
+  const [formData, setFormData] = useState<any>({
     name: '',
     days: 0,
     waterPerSecond: 0,
     gardenAssociated: '',
+    garden: {id: '', name: ''},
   });
 
-  // useEffect(() => {
-  //   async function fetch() {
-  //      const allGardensAssociated = await fetchAssociatedGardens.execute(params.slug.toString());
-  //      const allGardens = await fetchGardens.execute();
-  //      setGardens(allGardens);
-  //      const plant = await findUC.execute(params.slug.toString());
-  //      setGardens(allGardensAssociated);
-  //      setPlant(plant);
-        //  setFormData({
-        //   ...formData,
-        //   name: plant?.name || '',
-        //   days: plant?.days || 0,
-        //   waterPerSecond: plant?.waterPerSecond || 0,
-        //   gardenAssociated: associatedGardens[0].name || ''
-        //  });
-  //   }
+  useEffect(() => {
+    const plant = findPlant(params.slug);
+    setFormData(plant)
 
-  //   fetch();
-  // }, [params.slug]);
+  }, [params.slug]);
 
   const handleFormEdit = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
     setFormData(
@@ -81,6 +56,7 @@ const PlantDetailPage: React.FC<PageProps> = ({params}) => {
         <h1 className={editStyles.formTitle}>
             Informações da planta
         </h1>
+        <Suspense fallback={<p>Carregando informações...</p>}/>
         <div className={editStyles.registerForm}>
             <form 
             className={editStyles.form} 
@@ -111,7 +87,8 @@ const PlantDetailPage: React.FC<PageProps> = ({params}) => {
                 <select 
                   className={editStyles.input} 
                   onChange={(e) => handleGardenEdit(e)}
-                  disabled={!isEditing}>
+                  disabled={!isEditing}
+                  >
                     {gardens.map((garden) => (
                     <option 
                         key={garden.id} 

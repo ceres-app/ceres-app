@@ -4,51 +4,51 @@ import GreenButton from '@/components/green-button';
 import ModalButton from '@/components/modal-button';
 import { WeatherCard } from '@/components/weather-card';
 import { Garden } from '@/entities/Garden';
+import DeviceService from '@/services/device.service';
 import styles from '@/styles/home.module.css';
+import { SendDeviceRequest } from '@/use_cases/device/SendDeviceRequest';
+import { plantList } from '@/utils/data';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { RiAddLine } from 'react-icons/ri';
 
-const cardsData = [
-  {
-    id: 1,
-    title: 'Tomate',
-    days: 2,
-  },
-  {
-    id: 2,
-    title: 'Tomate',
-    days: 7,
-  },
-  {
-    id: 3,
-    title: 'Tomate',
-    days: 3,
-  },
-  {
-    id: 4,
-    title: 'Tomate',
-    days: 13,
-  },
-  {
-    id: 5,
-    title: 'Tomate',
-    days: 6,
-  }
-];
+const deviceService = new DeviceService();
+const sendCommand = new SendDeviceRequest(deviceService);
 
 const Home: React.FC = () => {
   const [isOn, setIsOn] = useState(false);
+  const router = useRouter();
   const [garden, setGarden] = useState<Garden>();
   const [buttonText, setButtonText] = useState('Iniciar irrigação');
-  const handleIrrigation = () =>{
+  async function handleIrrigation(){
     if (isOn) {
       setIsOn(false);
       setButtonText('Iniciar irrigação');
+      try {
+        await fetch('http://localhost:3000/users/64dd3a166566cdf859439c85/devices/64dd3a176566cdf859439c87/on', {
+          method: 'PATCH',
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          }
+        });
+        console.log('Device command executed succefully');
+      } catch (error) {
+        console.error('Error creating device:', error);
+      }
     }
     else {
       setIsOn(true)
       setButtonText('Parar irrigação');
+      try {
+        await fetch('http://localhost:3000/users/64dd3a166566cdf859439c85/devices/64dd3a176566cdf859439c87/off', {
+          method: 'PATCH'
+        });
+        console.log('Device command executed succefully');
+      } catch (error) {
+        console.error('Error sending command device:', error);
+      }
     };
   }
 
@@ -66,10 +66,10 @@ const Home: React.FC = () => {
         </div>
         <div className={styles.listView}>
           <div className={styles.listContent}>
-            {cardsData.map((cardData) => (
+            {plantList.map((cardData) => (
             <Link href={`plants/${cardData.id}`} key={cardData.id} className={styles.listItem}>
             <Card
-              title={cardData.title}
+              title={cardData.name}
               days={cardData.days}
             />
             </Link>

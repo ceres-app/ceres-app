@@ -76,13 +76,16 @@ export default class GardenService {
     }
 
     async fetchAll(){
-      const response = await fetch(`${API_URL}:${API_PORT}/gardens`, {
+      const response = await fetch('https://swapi.dev/api/planets/', {//await fetch(`${API_URL}:${API_PORT}/gardens`, {
+        cache: 'no-store',
         method: 'GET'
       });
 
       const responseJSON = await response.json();
       const responseStatus = response.status;
+      console.log(responseJSON);
       if (responseStatus !== 200) throw new Error(responseJSON.message);
-      return responseJSON.map((garden: { name: string; _id: any; isWorking: boolean; }) => ({ name: garden.name, _id: garden._id, isWorking: garden.isWorking }));
+      //return responseJSON.map((garden: { name: string; _id: any; isWorking: boolean; }) => ({ name: garden.name, _id: garden._id, isWorking: garden.isWorking }));
+      return responseJSON.results.map((garden: {name: string, url: string, hair_color: string}) => ({url: garden.url, name: garden.name, hair_color: garden.hair_color}));
     }
 }

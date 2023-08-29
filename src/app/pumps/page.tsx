@@ -7,7 +7,7 @@ import styles from '@/styles/pumps.module.css';
 import { FetchAll } from "@/use_cases/device/FetchAll";
 import { SearchInput } from 'evergreen-ui';
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 let pumpsData: Device[] = [];
 const deviceService = new DeviceService();
@@ -15,19 +15,20 @@ const fetchUC = new FetchAll(deviceService);
 
 const Pumps: React.FC = () => { {
   const [searchTerm, setSearchTerm] = useState('');
-  const [pumps, setPumps] = useState<Device[]>([]);
+  const [pumps, setPumps] = useState([{id: '', name: '', isWorking: true, serialID: '', user: ''}]);
 
-  // useEffect(() => {
-  //   async function fetch() {
-  //     const allPumps = await fetchUC.execute();
-  //     setPumps(allPumps);
-  //   }
+  useEffect(() => {
+    async function fetch() {
 
-  //   fetch();
-  // }, []);
+      const allPumps = await fetchUC.execute();
+      setPumps(allPumps);
+    }
 
-  const filteredItems: Device[] = pumps.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    fetch();
+  }, []);
+
+  const filteredItems = pumps.filter(item =>
+    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
 

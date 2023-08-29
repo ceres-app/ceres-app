@@ -1,19 +1,13 @@
 'use client'
+import DeviceService from '@/services/device.service';
 import editStyles from '@/styles/editForm.module.css';
 import styles from '@/styles/plants.module.css';
+import { Create } from '@/use_cases/device/Create';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-const gardens = [
-    {
-        id: 1,
-        name: 'Jardim'
-    },
-    {
-        id: 2,
-        name: 'Jardim 2',
-    }
-]
+const deviceService = new DeviceService();
+const createUC = new Create(deviceService);
 
 const Register: React.FC = ({}) => {
   const router = useRouter(); 
@@ -30,15 +24,31 @@ const Register: React.FC = ({}) => {
     setSerial(event.target.value);
   }
 
-  // const handleGardenEdit = (
-  //   event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setGarden(event.target.value);
-  // }
+  async function handleForm(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(name);
+    console.log(serialID);
+    try {
+      await fetch('http://localhost:3000/users/64dd3a166566cdf859439c85/devices', {
+        method: 'POST',
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          serialID: serialID,
+        }),
+      });
+      console.log('Device created successfully');
+    } catch (error) {
+      console.error('Error creating device:', error);
+    }
 
-  const handleForm = (event: React.FormEvent<HTMLFormElement>) =>{
-      event.preventDefault();
-      console.log(name);
+    router.prefetch('/pumps');
+    router.push('/pumps');
   }
+  
   
   return (
     <div className={styles.container}>
@@ -62,15 +72,6 @@ const Register: React.FC = ({}) => {
             placeholder="" 
             className={editStyles.input} 
             onChange={(e) => handleSerialIDEdit(e)}/>
-         {/* <select className={editStyles.input} onChange={(e) => handleGardenEdit(e)}>
-         {gardens.map((garden) => (
-            <option 
-                key={garden.id} 
-                value={`${garden.name}`}>
-                {garden.name}
-            </option>
-         ))}
-        </select> */}
           <button 
             className={editStyles.button}
             type='submit'>

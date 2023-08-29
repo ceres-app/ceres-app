@@ -3,20 +3,19 @@ import { API_PORT, API_URL } from "../utils/constants";
 
 export default class DeviceService {
     async create(newDevice: Device): Promise<Device> {
-        const { name, isWorking, serialID  } = newDevice;
+        const { name, isWorking, serialID, user  } = newDevice;
             const response = await fetch(
-                //`${API_URL}:${API_PORT}/gardens/${harden.id}/Devices`,
+              'http://localhost:3000/users/64dd3a166566cdf859439c85/devices',
                 {
                   method: "POST",
                   headers: {
                     Accept: "application/json",
-                    "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
                     createdAt: new Date(),
                     name: name,
                     serialID: serialID,
-                    isWorking: isWorking
+                    isWorking: isWorking,
                   }),
                 }
             );
@@ -24,16 +23,6 @@ export default class DeviceService {
            const responseStatus = response.status;
            if (responseStatus !== 200) throw new Error(responseJSON.message);
            return responseJSON;
-    }
-
-    async findByGardenId(gardenId: string): Promise<Device>{
-        const response = await fetch(
-            `${API_URL}:${API_PORT}/gardens/${gardenId}/Devices`
-          );
-          const responseJSON = await response.json();
-          const responseStatus = response.status;
-          if (responseStatus !== 200) throw new Error(responseJSON.message);
-          return responseJSON;
     }
 
     async findById(DeviceId: string): Promise<Device>{
@@ -48,10 +37,10 @@ export default class DeviceService {
     }
 
     async update(updatedFields: Partial<Device>): Promise<Device>{
-        const { id, ...fieldsToUpdate } = updatedFields;
+        const { _id, ...fieldsToUpdate } = updatedFields;
 
         const response = await fetch(
-            `${API_URL}:${API_PORT}/Devices/${id}`,
+            `${API_URL}:${API_PORT}/Devices/${_id}`,
         {
             method: "PATCH",
             headers: {
@@ -89,7 +78,8 @@ export default class DeviceService {
     }
 
     async sendDeviceRequest(command: string, DeviceId: string){
-        const response = await fetch(`${API_URL}:${API_PORT}/device/${DeviceId}/${command}`, {
+        const response = await fetch(
+          `http://localhost:3000/users/64dd3a166566cdf859439c85/devices/${DeviceId}/${command}`, {
           method: 'POST'
         });
       
@@ -99,8 +89,12 @@ export default class DeviceService {
       };
 
     async fetchAll(){
-      const response = await fetch(`${API_URL}:${API_PORT}/devices`, {
-        method: 'GET'
+      const response = await fetch(`http://localhost:3000/users/64dd3a166566cdf859439c85/devices`, {
+        method: 'GET',
+        cache: 'no-store',
+        next: {
+          revalidate: 5,
+        }
       });
 
       const responseJSON = await response.json();

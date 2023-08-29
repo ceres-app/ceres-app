@@ -4,6 +4,6 @@ import DeviceService from "../../services/device.service";
 export class Create {
     constructor(private readonly pumpService: DeviceService) {}
     async execute(newDevice: Device){
-        return this.pumpService.create(newDevice);
+        return await this.pumpService.create(newDevice);
     }
 }

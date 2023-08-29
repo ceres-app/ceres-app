@@ -11,6 +11,11 @@
     align-items: center;
 }
 
+.list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
 .item {
     display: flex;
     flex-direction: row;
